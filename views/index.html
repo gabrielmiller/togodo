@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Togodo</title>
+    <script type="text/javascript" src="/static/js/libraries/angular/1.2.0/angular.min.js"></script>
+    <script type="text/javascript" src="/static/js/controller.js"></script>
+    <link href="/static/css/togodo.css" rel="stylesheet">
+    
+</head>
+<body ng-app>
+    <div ng-controller="togodo">
+        <form ng-submit="addItem()">
+        <h1>To-do</h1>
+        <ul>
+            <li class="existing" ng-repeat="(index,item) in items track by $index">
+                <p>{{item}}</p>
+                <p><a ng-Click="removeItem(index)">X</a></p>
+            </li>
+            <li><input type="text" ng-model="input" placeholder="Add an item"></input></li>
+        </ul>
+        </form>
+    </div>
+</body>
+</html>

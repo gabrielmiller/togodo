@@ -3,44 +3,43 @@ package main
 import(
     "fmt"
     "net/http"
-    "html/template"
 )
 
-
 func root(w http.ResponseWriter, req *http.Request){
-    indexTemplate := template.Must(template.New("index").ParseFiles("./templates/index.html"))
-    indexTemplate.ExecuteTemplate(w, "base", "index")
+    http.ServeFile(w, req, "./views/index.html")
 }
 
-func item(w http.ResponseWriter, req *http.Request){
+func items(w http.ResponseWriter, req *http.Request){
     // API for CRUD
+    fmt.Println("/items hit");
 }
 
 func serveFile(pattern string, filename string) {
-    http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, filename)
+    http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
+        http.ServeFile(w, req, filename)
     })
 }
 
 func printOutput(handler http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        fmt.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
-    handler.ServeHTTP(w, r)
+    return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+        fmt.Printf("%s %s %s\n", req.RemoteAddr, req.Method, req.URL)
+        handler.ServeHTTP(w, req)
     })
 }
 
 func main(){
     fmt.Println(" > HTTP Server running...")
 
-    http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, r.URL.Path[1:])
+    http.HandleFunc("/static/", func(w http.ResponseWriter, req *http.Request) {
+        http.ServeFile(w, req, req.URL.Path[1:])
     })
 
+    http.HandleFunc("/items", items)
+
     http.HandleFunc("/", root)
-    //http.HandleFunc("/item", item)
-    //http.Handle("/static/", http.FileServer(http.Dir("./static")))
 
     serveFile("/favicon.ico", "./favicon.ico")
+
     serveFile("/robots.txt", "./robots.txt")
 
     http.ListenAndServe(":1234", printOutput(http.DefaultServeMux))

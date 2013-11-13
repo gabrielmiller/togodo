@@ -1,0 +1,48 @@
+body div{
+    margin:0 auto;
+    min-width:320px;
+    max-width:960px;
+}
+
+h1{
+}
+
+ul{
+    padding:0;
+}
+
+li{
+    padding:32px;
+    list-style:none;
+    margin-bottom:8px;
+    clear:both;
+    min-height:64px;
+}
+
+li.existing{
+    background-color:#ddd;
+    color:#000;
+    font:16px sans-serif;
+}
+
+li p{
+    display:inline;
+}
+
+li p:nth-child(odd){
+    float:left;
+}
+
+li p:nth-child(even){
+    float:right;
+}
+
+a{
+    color:#922;
+    cursor: pointer;
+    font-weight:700;
+}
+
+a:hover{
+    color:#f00;
+}
